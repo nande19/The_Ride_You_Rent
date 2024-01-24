@@ -1,0 +1,607 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CAR">
+          <Key>
+            <PropertyRef Name="CARNO" />
+          </Key>
+          <Property Name="CARNO" Type="varchar" MaxLength="90" Nullable="false" />
+          <Property Name="CAR_MAKE" Type="varchar" MaxLength="90" Nullable="false" />
+          <Property Name="CAR_MODEL" Type="varchar" MaxLength="90" Nullable="false" />
+          <Property Name="CAR_BODYTYPE" Type="varchar" MaxLength="90" Nullable="false" />
+          <Property Name="KILOMETRESTRAVELLED" Type="int" Nullable="false" />
+          <Property Name="SERVICEKILOMETRES" Type="int" Nullable="false" />
+          <Property Name="AVAILABLE" Type="char" MaxLength="90" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CARBODYTYPE">
+          <Key>
+            <PropertyRef Name="CAR_BODYTYPE" />
+          </Key>
+          <Property Name="CAR_BODYTYPE" Type="varchar" MaxLength="90" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CARMAKE">
+          <Key>
+            <PropertyRef Name="CAR_MAKE" />
+          </Key>
+          <Property Name="CAR_MAKE" Type="varchar" MaxLength="90" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DRIVER">
+          <Key>
+            <PropertyRef Name="DRIVER_NAME" />
+          </Key>
+          <Property Name="DRIVER_NAME" Type="char" MaxLength="90" Nullable="false" />
+          <Property Name="DRIVER_ADDRESS" Type="varchar" MaxLength="1000" Nullable="false" />
+          <Property Name="EMAIL" Type="varchar" MaxLength="1000" Nullable="false" />
+          <Property Name="MOBILE" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="INSPECTOR">
+          <Key>
+            <PropertyRef Name="INSPECTORID" />
+          </Key>
+          <Property Name="INSPECTORID" Type="varchar" MaxLength="90" Nullable="false" />
+          <Property Name="INSPECTOR_NAME" Type="char" MaxLength="90" Nullable="false" />
+          <Property Name="EMAIL" Type="varchar" MaxLength="900" Nullable="false" />
+          <Property Name="MOBILE" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RE_TURN">
+          <Key>
+            <PropertyRef Name="RETURNID" />
+          </Key>
+          <Property Name="RETURNID" Type="varchar" MaxLength="90" Nullable="false" />
+          <Property Name="RENTALID" Type="varchar" MaxLength="90" Nullable="false" />
+          <Property Name="CARNO" Type="varchar" MaxLength="90" Nullable="false" />
+          <Property Name="INSPECTORID" Type="varchar" MaxLength="90" />
+          <Property Name="DRIVER_NAME" Type="char" MaxLength="90" Nullable="false" />
+          <Property Name="RETURN_DATE" Type="date" Nullable="false" />
+          <Property Name="ELAPSED_DATE" Type="int" Nullable="false" />
+          <Property Name="FINE" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RENTAL">
+          <Key>
+            <PropertyRef Name="RENTALID" />
+          </Key>
+          <Property Name="RENTALID" Type="varchar" MaxLength="90" Nullable="false" />
+          <Property Name="CARNO" Type="varchar" MaxLength="90" Nullable="false" />
+          <Property Name="INSPECTORID" Type="varchar" MaxLength="90" Nullable="false" />
+          <Property Name="DRIVER_NAME" Type="char" MaxLength="90" Nullable="false" />
+          <Property Name="RENTAL_FEE" Type="int" Nullable="false" />
+          <Property Name="STARTDATE" Type="date" Nullable="false" />
+          <Property Name="ENDDATE" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="FK_CAR">
+          <End Role="CAR" Type="Self.CAR" Multiplicity="1" />
+          <End Role="RENTAL" Type="Self.RENTAL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CAR">
+              <PropertyRef Name="CARNO" />
+            </Principal>
+            <Dependent Role="RENTAL">
+              <PropertyRef Name="CARNO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CAR1">
+          <End Role="CAR" Type="Self.CAR" Multiplicity="1" />
+          <End Role="RE_TURN" Type="Self.RE_TURN" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CAR">
+              <PropertyRef Name="CARNO" />
+            </Principal>
+            <Dependent Role="RE_TURN">
+              <PropertyRef Name="CARNO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CARBODYTYPE">
+          <End Role="CARBODYTYPE" Type="Self.CARBODYTYPE" Multiplicity="1" />
+          <End Role="CAR" Type="Self.CAR" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CARBODYTYPE">
+              <PropertyRef Name="CAR_BODYTYPE" />
+            </Principal>
+            <Dependent Role="CAR">
+              <PropertyRef Name="CAR_BODYTYPE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CARMAKE">
+          <End Role="CARMAKE" Type="Self.CARMAKE" Multiplicity="1" />
+          <End Role="CAR" Type="Self.CAR" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CARMAKE">
+              <PropertyRef Name="CAR_MAKE" />
+            </Principal>
+            <Dependent Role="CAR">
+              <PropertyRef Name="CAR_MAKE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DRIVER">
+          <End Role="DRIVER" Type="Self.DRIVER" Multiplicity="1" />
+          <End Role="RENTAL" Type="Self.RENTAL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DRIVER">
+              <PropertyRef Name="DRIVER_NAME" />
+            </Principal>
+            <Dependent Role="RENTAL">
+              <PropertyRef Name="DRIVER_NAME" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DRIVER1">
+          <End Role="DRIVER" Type="Self.DRIVER" Multiplicity="1" />
+          <End Role="RE_TURN" Type="Self.RE_TURN" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DRIVER">
+              <PropertyRef Name="DRIVER_NAME" />
+            </Principal>
+            <Dependent Role="RE_TURN">
+              <PropertyRef Name="DRIVER_NAME" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_INSPECTOR">
+          <End Role="INSPECTOR" Type="Self.INSPECTOR" Multiplicity="1" />
+          <End Role="RENTAL" Type="Self.RENTAL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="INSPECTOR">
+              <PropertyRef Name="INSPECTORID" />
+            </Principal>
+            <Dependent Role="RENTAL">
+              <PropertyRef Name="INSPECTORID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_INSPECTOR1">
+          <End Role="INSPECTOR" Type="Self.INSPECTOR" Multiplicity="0..1" />
+          <End Role="RE_TURN" Type="Self.RE_TURN" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="INSPECTOR">
+              <PropertyRef Name="INSPECTORID" />
+            </Principal>
+            <Dependent Role="RE_TURN">
+              <PropertyRef Name="INSPECTORID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RENTAL">
+          <End Role="RENTAL" Type="Self.RENTAL" Multiplicity="1" />
+          <End Role="RE_TURN" Type="Self.RE_TURN" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RENTAL">
+              <PropertyRef Name="RENTALID" />
+            </Principal>
+            <Dependent Role="RE_TURN">
+              <PropertyRef Name="RENTALID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="CAR" EntityType="Self.CAR" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CARBODYTYPE" EntityType="Self.CARBODYTYPE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CARMAKE" EntityType="Self.CARMAKE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DRIVER" EntityType="Self.DRIVER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="INSPECTOR" EntityType="Self.INSPECTOR" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RE_TURN" EntityType="Self.RE_TURN" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RENTAL" EntityType="Self.RENTAL" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_CAR" Association="Self.FK_CAR">
+            <End Role="CAR" EntitySet="CAR" />
+            <End Role="RENTAL" EntitySet="RENTAL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CAR1" Association="Self.FK_CAR1">
+            <End Role="CAR" EntitySet="CAR" />
+            <End Role="RE_TURN" EntitySet="RE_TURN" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CARBODYTYPE" Association="Self.FK_CARBODYTYPE">
+            <End Role="CARBODYTYPE" EntitySet="CARBODYTYPE" />
+            <End Role="CAR" EntitySet="CAR" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CARMAKE" Association="Self.FK_CARMAKE">
+            <End Role="CARMAKE" EntitySet="CARMAKE" />
+            <End Role="CAR" EntitySet="CAR" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DRIVER" Association="Self.FK_DRIVER">
+            <End Role="DRIVER" EntitySet="DRIVER" />
+            <End Role="RENTAL" EntitySet="RENTAL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DRIVER1" Association="Self.FK_DRIVER1">
+            <End Role="DRIVER" EntitySet="DRIVER" />
+            <End Role="RE_TURN" EntitySet="RE_TURN" />
+          </AssociationSet>
+          <AssociationSet Name="FK_INSPECTOR" Association="Self.FK_INSPECTOR">
+            <End Role="INSPECTOR" EntitySet="INSPECTOR" />
+            <End Role="RENTAL" EntitySet="RENTAL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_INSPECTOR1" Association="Self.FK_INSPECTOR1">
+            <End Role="INSPECTOR" EntitySet="INSPECTOR" />
+            <End Role="RE_TURN" EntitySet="RE_TURN" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RENTAL" Association="Self.FK_RENTAL">
+            <End Role="RENTAL" EntitySet="RENTAL" />
+            <End Role="RE_TURN" EntitySet="RE_TURN" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CAR">
+          <Key>
+            <PropertyRef Name="CARNO" />
+          </Key>
+          <Property Name="CARNO" Type="String" MaxLength="90" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CAR_MAKE" Type="String" MaxLength="90" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CAR_MODEL" Type="String" MaxLength="90" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CAR_BODYTYPE" Type="String" MaxLength="90" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="KILOMETRESTRAVELLED" Type="Int32" Nullable="false" />
+          <Property Name="SERVICEKILOMETRES" Type="Int32" Nullable="false" />
+          <Property Name="AVAILABLE" Type="String" MaxLength="90" FixedLength="true" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="RENTALs" Relationship="Self.FK_CAR" FromRole="CAR" ToRole="RENTAL" />
+          <NavigationProperty Name="RE_TURN" Relationship="Self.FK_CAR1" FromRole="CAR" ToRole="RE_TURN" />
+          <NavigationProperty Name="CARBODYTYPE" Relationship="Self.FK_CARBODYTYPE" FromRole="CAR" ToRole="CARBODYTYPE" />
+          <NavigationProperty Name="CARMAKE" Relationship="Self.FK_CARMAKE" FromRole="CAR" ToRole="CARMAKE" />
+        </EntityType>
+        <EntityType Name="CARBODYTYPE">
+          <Key>
+            <PropertyRef Name="CAR_BODYTYPE" />
+          </Key>
+          <Property Name="CAR_BODYTYPE" Type="String" MaxLength="90" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="CARs" Relationship="Self.FK_CARBODYTYPE" FromRole="CARBODYTYPE" ToRole="CAR" />
+        </EntityType>
+        <EntityType Name="CARMAKE">
+          <Key>
+            <PropertyRef Name="CAR_MAKE" />
+          </Key>
+          <Property Name="CAR_MAKE" Type="String" MaxLength="90" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="CARs" Relationship="Self.FK_CARMAKE" FromRole="CARMAKE" ToRole="CAR" />
+        </EntityType>
+        <EntityType Name="DRIVER">
+          <Key>
+            <PropertyRef Name="DRIVER_NAME" />
+          </Key>
+          <Property Name="DRIVER_NAME" Type="String" MaxLength="90" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="DRIVER_ADDRESS" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="EMAIL" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MOBILE" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="RENTALs" Relationship="Self.FK_DRIVER" FromRole="DRIVER" ToRole="RENTAL" />
+          <NavigationProperty Name="RE_TURN" Relationship="Self.FK_DRIVER1" FromRole="DRIVER" ToRole="RE_TURN" />
+        </EntityType>
+        <EntityType Name="INSPECTOR">
+          <Key>
+            <PropertyRef Name="INSPECTORID" />
+          </Key>
+          <Property Name="INSPECTORID" Type="String" MaxLength="90" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="INSPECTOR_NAME" Type="String" MaxLength="90" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="EMAIL" Type="String" MaxLength="900" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MOBILE" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="RENTALs" Relationship="Self.FK_INSPECTOR" FromRole="INSPECTOR" ToRole="RENTAL" />
+          <NavigationProperty Name="RE_TURN" Relationship="Self.FK_INSPECTOR1" FromRole="INSPECTOR" ToRole="RE_TURN" />
+        </EntityType>
+        <EntityType Name="RE_TURN">
+          <Key>
+            <PropertyRef Name="RETURNID" />
+          </Key>
+          <Property Name="RETURNID" Type="String" MaxLength="90" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="RENTALID" Type="String" MaxLength="90" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CARNO" Type="String" MaxLength="90" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="INSPECTORID" Type="String" MaxLength="90" FixedLength="false" Unicode="false" />
+          <Property Name="DRIVER_NAME" Type="String" MaxLength="90" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="RETURN_DATE" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ELAPSED_DATE" Type="Int32" Nullable="false" />
+          <Property Name="FINE" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CAR" Relationship="Self.FK_CAR1" FromRole="RE_TURN" ToRole="CAR" />
+          <NavigationProperty Name="DRIVER" Relationship="Self.FK_DRIVER1" FromRole="RE_TURN" ToRole="DRIVER" />
+          <NavigationProperty Name="INSPECTOR" Relationship="Self.FK_INSPECTOR1" FromRole="RE_TURN" ToRole="INSPECTOR" />
+          <NavigationProperty Name="RENTAL" Relationship="Self.FK_RENTAL" FromRole="RE_TURN" ToRole="RENTAL" />
+        </EntityType>
+        <EntityType Name="RENTAL">
+          <Key>
+            <PropertyRef Name="RENTALID" />
+          </Key>
+          <Property Name="RENTALID" Type="String" MaxLength="90" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CARNO" Type="String" MaxLength="90" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="INSPECTORID" Type="String" MaxLength="90" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DRIVER_NAME" Type="String" MaxLength="90" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="RENTAL_FEE" Type="Int32" Nullable="false" />
+          <Property Name="STARTDATE" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ENDDATE" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="CAR" Relationship="Self.FK_CAR" FromRole="RENTAL" ToRole="CAR" />
+          <NavigationProperty Name="DRIVER" Relationship="Self.FK_DRIVER" FromRole="RENTAL" ToRole="DRIVER" />
+          <NavigationProperty Name="INSPECTOR" Relationship="Self.FK_INSPECTOR" FromRole="RENTAL" ToRole="INSPECTOR" />
+          <NavigationProperty Name="RE_TURN" Relationship="Self.FK_RENTAL" FromRole="RENTAL" ToRole="RE_TURN" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK_CAR">
+          <End Role="CAR" Type="Self.CAR" Multiplicity="1" />
+          <End Role="RENTAL" Type="Self.RENTAL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CAR">
+              <PropertyRef Name="CARNO" />
+            </Principal>
+            <Dependent Role="RENTAL">
+              <PropertyRef Name="CARNO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CAR1">
+          <End Role="CAR" Type="Self.CAR" Multiplicity="1" />
+          <End Role="RE_TURN" Type="Self.RE_TURN" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CAR">
+              <PropertyRef Name="CARNO" />
+            </Principal>
+            <Dependent Role="RE_TURN">
+              <PropertyRef Name="CARNO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CARBODYTYPE">
+          <End Role="CARBODYTYPE" Type="Self.CARBODYTYPE" Multiplicity="1" />
+          <End Role="CAR" Type="Self.CAR" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CARBODYTYPE">
+              <PropertyRef Name="CAR_BODYTYPE" />
+            </Principal>
+            <Dependent Role="CAR">
+              <PropertyRef Name="CAR_BODYTYPE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CARMAKE">
+          <End Role="CARMAKE" Type="Self.CARMAKE" Multiplicity="1" />
+          <End Role="CAR" Type="Self.CAR" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CARMAKE">
+              <PropertyRef Name="CAR_MAKE" />
+            </Principal>
+            <Dependent Role="CAR">
+              <PropertyRef Name="CAR_MAKE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DRIVER">
+          <End Role="DRIVER" Type="Self.DRIVER" Multiplicity="1" />
+          <End Role="RENTAL" Type="Self.RENTAL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DRIVER">
+              <PropertyRef Name="DRIVER_NAME" />
+            </Principal>
+            <Dependent Role="RENTAL">
+              <PropertyRef Name="DRIVER_NAME" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DRIVER1">
+          <End Role="DRIVER" Type="Self.DRIVER" Multiplicity="1" />
+          <End Role="RE_TURN" Type="Self.RE_TURN" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DRIVER">
+              <PropertyRef Name="DRIVER_NAME" />
+            </Principal>
+            <Dependent Role="RE_TURN">
+              <PropertyRef Name="DRIVER_NAME" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_INSPECTOR">
+          <End Role="INSPECTOR" Type="Self.INSPECTOR" Multiplicity="1" />
+          <End Role="RENTAL" Type="Self.RENTAL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="INSPECTOR">
+              <PropertyRef Name="INSPECTORID" />
+            </Principal>
+            <Dependent Role="RENTAL">
+              <PropertyRef Name="INSPECTORID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_INSPECTOR1">
+          <End Role="INSPECTOR" Type="Self.INSPECTOR" Multiplicity="0..1" />
+          <End Role="RE_TURN" Type="Self.RE_TURN" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="INSPECTOR">
+              <PropertyRef Name="INSPECTORID" />
+            </Principal>
+            <Dependent Role="RE_TURN">
+              <PropertyRef Name="INSPECTORID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RENTAL">
+          <End Role="RENTAL" Type="Self.RENTAL" Multiplicity="1" />
+          <End Role="RE_TURN" Type="Self.RE_TURN" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RENTAL">
+              <PropertyRef Name="RENTALID" />
+            </Principal>
+            <Dependent Role="RE_TURN">
+              <PropertyRef Name="RENTALID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CARs" EntityType="Self.CAR" />
+          <EntitySet Name="CARBODYTYPEs" EntityType="Self.CARBODYTYPE" />
+          <EntitySet Name="CARMAKEs" EntityType="Self.CARMAKE" />
+          <EntitySet Name="DRIVERs" EntityType="Self.DRIVER" />
+          <EntitySet Name="INSPECTORs" EntityType="Self.INSPECTOR" />
+          <EntitySet Name="RE_TURN" EntityType="Self.RE_TURN" />
+          <EntitySet Name="RENTALs" EntityType="Self.RENTAL" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <AssociationSet Name="FK_CAR" Association="Self.FK_CAR">
+            <End Role="CAR" EntitySet="CARs" />
+            <End Role="RENTAL" EntitySet="RENTALs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CAR1" Association="Self.FK_CAR1">
+            <End Role="CAR" EntitySet="CARs" />
+            <End Role="RE_TURN" EntitySet="RE_TURN" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CARBODYTYPE" Association="Self.FK_CARBODYTYPE">
+            <End Role="CARBODYTYPE" EntitySet="CARBODYTYPEs" />
+            <End Role="CAR" EntitySet="CARs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CARMAKE" Association="Self.FK_CARMAKE">
+            <End Role="CARMAKE" EntitySet="CARMAKEs" />
+            <End Role="CAR" EntitySet="CARs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DRIVER" Association="Self.FK_DRIVER">
+            <End Role="DRIVER" EntitySet="DRIVERs" />
+            <End Role="RENTAL" EntitySet="RENTALs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DRIVER1" Association="Self.FK_DRIVER1">
+            <End Role="DRIVER" EntitySet="DRIVERs" />
+            <End Role="RE_TURN" EntitySet="RE_TURN" />
+          </AssociationSet>
+          <AssociationSet Name="FK_INSPECTOR" Association="Self.FK_INSPECTOR">
+            <End Role="INSPECTOR" EntitySet="INSPECTORs" />
+            <End Role="RENTAL" EntitySet="RENTALs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_INSPECTOR1" Association="Self.FK_INSPECTOR1">
+            <End Role="INSPECTOR" EntitySet="INSPECTORs" />
+            <End Role="RE_TURN" EntitySet="RE_TURN" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RENTAL" Association="Self.FK_RENTAL">
+            <End Role="RENTAL" EntitySet="RENTALs" />
+            <End Role="RE_TURN" EntitySet="RE_TURN" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="CARs">
+            <EntityTypeMapping TypeName="Model.CAR">
+              <MappingFragment StoreEntitySet="CAR">
+                <ScalarProperty Name="CARNO" ColumnName="CARNO" />
+                <ScalarProperty Name="CAR_MAKE" ColumnName="CAR_MAKE" />
+                <ScalarProperty Name="CAR_MODEL" ColumnName="CAR_MODEL" />
+                <ScalarProperty Name="CAR_BODYTYPE" ColumnName="CAR_BODYTYPE" />
+                <ScalarProperty Name="KILOMETRESTRAVELLED" ColumnName="KILOMETRESTRAVELLED" />
+                <ScalarProperty Name="SERVICEKILOMETRES" ColumnName="SERVICEKILOMETRES" />
+                <ScalarProperty Name="AVAILABLE" ColumnName="AVAILABLE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CARBODYTYPEs">
+            <EntityTypeMapping TypeName="Model.CARBODYTYPE">
+              <MappingFragment StoreEntitySet="CARBODYTYPE">
+                <ScalarProperty Name="CAR_BODYTYPE" ColumnName="CAR_BODYTYPE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CARMAKEs">
+            <EntityTypeMapping TypeName="Model.CARMAKE">
+              <MappingFragment StoreEntitySet="CARMAKE">
+                <ScalarProperty Name="CAR_MAKE" ColumnName="CAR_MAKE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DRIVERs">
+            <EntityTypeMapping TypeName="Model.DRIVER">
+              <MappingFragment StoreEntitySet="DRIVER">
+                <ScalarProperty Name="DRIVER_NAME" ColumnName="DRIVER_NAME" />
+                <ScalarProperty Name="DRIVER_ADDRESS" ColumnName="DRIVER_ADDRESS" />
+                <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
+                <ScalarProperty Name="MOBILE" ColumnName="MOBILE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="INSPECTORs">
+            <EntityTypeMapping TypeName="Model.INSPECTOR">
+              <MappingFragment StoreEntitySet="INSPECTOR">
+                <ScalarProperty Name="INSPECTORID" ColumnName="INSPECTORID" />
+                <ScalarProperty Name="INSPECTOR_NAME" ColumnName="INSPECTOR_NAME" />
+                <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
+                <ScalarProperty Name="MOBILE" ColumnName="MOBILE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RE_TURN">
+            <EntityTypeMapping TypeName="Model.RE_TURN">
+              <MappingFragment StoreEntitySet="RE_TURN">
+                <ScalarProperty Name="RETURNID" ColumnName="RETURNID" />
+                <ScalarProperty Name="RENTALID" ColumnName="RENTALID" />
+                <ScalarProperty Name="CARNO" ColumnName="CARNO" />
+                <ScalarProperty Name="INSPECTORID" ColumnName="INSPECTORID" />
+                <ScalarProperty Name="DRIVER_NAME" ColumnName="DRIVER_NAME" />
+                <ScalarProperty Name="RETURN_DATE" ColumnName="RETURN_DATE" />
+                <ScalarProperty Name="ELAPSED_DATE" ColumnName="ELAPSED_DATE" />
+                <ScalarProperty Name="FINE" ColumnName="FINE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RENTALs">
+            <EntityTypeMapping TypeName="Model.RENTAL">
+              <MappingFragment StoreEntitySet="RENTAL">
+                <ScalarProperty Name="RENTALID" ColumnName="RENTALID" />
+                <ScalarProperty Name="CARNO" ColumnName="CARNO" />
+                <ScalarProperty Name="INSPECTORID" ColumnName="INSPECTORID" />
+                <ScalarProperty Name="DRIVER_NAME" ColumnName="DRIVER_NAME" />
+                <ScalarProperty Name="RENTAL_FEE" ColumnName="RENTAL_FEE" />
+                <ScalarProperty Name="STARTDATE" ColumnName="STARTDATE" />
+                <ScalarProperty Name="ENDDATE" ColumnName="ENDDATE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="Model.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

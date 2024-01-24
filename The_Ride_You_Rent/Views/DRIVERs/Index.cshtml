@@ -1,0 +1,45 @@
+﻿@model IEnumerable<The_Ride_You_Rent.Models.DRIVER>
+
+@{
+    ViewBag.Title = "Driver";
+}
+
+<h2>DRIVER</h2>
+
+<p>
+    @Html.ActionLink("Add Driver", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DRIVER_ADDRESS)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EMAIL)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MOBILE)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.DRIVER_ADDRESS)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EMAIL)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MOBILE)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.DRIVER_NAME }) |
+            @Html.ActionLink("Details", "Details", new { id=item.DRIVER_NAME }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.DRIVER_NAME })
+        </td>
+    </tr>
+}
+
+</table>

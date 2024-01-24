@@ -1,0 +1,74 @@
+﻿@model The_Ride_You_Rent.Models.RE_TURN
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>RE_TURN</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.RETURN_DATE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RETURN_DATE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ELAPSED_DATE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ELAPSED_DATE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FINE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FINE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CAR.CAR_MAKE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CAR.CAR_MAKE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DRIVER.DRIVER_ADDRESS)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DRIVER.DRIVER_ADDRESS)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.INSPECTOR.INSPECTOR_NAME)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.INSPECTOR.INSPECTOR_NAME)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RENTAL.CARNO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RENTAL.CARNO)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.RETURNID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

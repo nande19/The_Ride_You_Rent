@@ -1,0 +1,45 @@
+﻿@model IEnumerable<The_Ride_You_Rent.Models.INSPECTOR>
+
+@{
+    ViewBag.Title = "Inspectors";
+}
+
+<h2>INSPECTORS</h2>
+
+<p>
+    @Html.ActionLink("Add Inspector", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.INSPECTOR_NAME)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EMAIL)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MOBILE)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.INSPECTOR_NAME)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EMAIL)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MOBILE)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.INSPECTORID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.INSPECTORID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.INSPECTORID })
+        </td>
+    </tr>
+}
+
+</table>

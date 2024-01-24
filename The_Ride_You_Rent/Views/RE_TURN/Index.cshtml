@@ -1,0 +1,69 @@
+﻿@model IEnumerable<The_Ride_You_Rent.Models.RE_TURN>
+
+@{
+    ViewBag.Title = "Return";
+}
+
+<h2>RETURN</h2>
+
+<p>
+    @Html.ActionLink("Log Return", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.RETURN_DATE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ELAPSED_DATE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FINE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CAR.CAR_MAKE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DRIVER.DRIVER_ADDRESS)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.INSPECTOR.INSPECTOR_NAME)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RENTAL.CARNO)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.RETURN_DATE)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ELAPSED_DATE)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FINE)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CAR.CAR_MAKE)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DRIVER.DRIVER_ADDRESS)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.INSPECTOR.INSPECTOR_NAME)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RENTAL.CARNO)
+        </td>
+        <td>
+           
+            @Html.ActionLink("Details", "Details", new { id=item.RETURNID }) 
+           
+        </td>
+    </tr>
+}
+
+</table>

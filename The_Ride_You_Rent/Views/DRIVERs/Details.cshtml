@@ -1,0 +1,42 @@
+﻿@model The_Ride_You_Rent.Models.DRIVER
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>DRIVER</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DRIVER_ADDRESS)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DRIVER_ADDRESS)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EMAIL)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EMAIL)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MOBILE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MOBILE)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.DRIVER_NAME }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
